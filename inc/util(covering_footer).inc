@@ -268,11 +268,9 @@ function page_head(
 	$t = $tabTitle?$tabTitle:PROJECT;
     //End of Gerald Joshua's edit
     echo "<title>$t</title>\n";
-//Cloud flare link added by Joshua
+
     echo '
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontt
--awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -307,12 +305,33 @@ function page_head(
     if ($fixed_navbar) {
         $body_attrs .= ' style="padding-top:70px"';
     }
-    //For keeping the footer down on all screens
-    //https://css-tricks.com/couple-takes-sticky-footer/
-    echo "<body $body_attrs>";
+    echo "<body $body_attrs>
+    <style>
+        html,
+    body {
+       margin:0;
+       padding:0;
+       height:100%;
+    }
+    #body {
+       padding:10px;
+       padding-bottom:105px;   /* Height of the footer */
+    }
+    #container {
+       min-height:100%;
+       position:sticky;
+    }
+    #footer {
+       position:absolute;
+       bottom:0;
+       width:100%;
+       height:105px;   /* Height of the footer */
+       background:#6cf;
+       overflow: hidden;
+    }
+    </style>";
     display_cvs_versions();
-    echo '<div class="container-fluid">
-    <div id="main" style="min-height: calc(100vh - 105px);">
+    echo '<div id="body"><div class="container-fluid">
     ';
 
     switch($title) {    //kludge
@@ -327,10 +346,7 @@ function page_head(
     project_banner($title, $url_prefix, $is_main);
 }
 }
-/*
-Extra div tags are for the footer id=body id=footer
-Source: https://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page
-*/
+
 // See the comments for page_head()
 //
 if (!function_exists("page_tail")){
